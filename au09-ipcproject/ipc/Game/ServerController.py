@@ -43,7 +43,7 @@ def show_error(message):
 class ServerController(QtGui.QWidget):
     # Default port
     PORT = 5050
-    COLS = 10
+    COLS = 20
     ROWS = 10
     # Signals
     err_signal = QtCore.Signal((str,))
@@ -64,22 +64,27 @@ class ServerController(QtGui.QWidget):
         :return: None
         """
         super().__init__(parent)
+        # Initial values
         self.fields = []
         self.bomb = []
+        self.bomb_label = None
         self.player1 = []
-        self.player2 = []
+        self.player1_label = None
         self.bomb1 = False
+        self.player2 = []
+        self.player2_label = None
         self.bomb2 = False
         self.closing = False
-        self.myForm = ServerView.Ui_Form()
-        self.myForm.setupUi(self)
+        # Setup UI
+        self.view = ServerView.Ui_view()
+        self.view.setupUi(self)
 
         self.setup_game()
         self.shuffle = False
         self.listening = False
 
-        self.myForm.btnListen.clicked.connect(self.bind_and_listen)
-        self.myForm.btnShuffle.clicked.connect(self.setup_game)
+        self.view.btn_listen.clicked.connect(self.bind_and_listen)
+        self.view.btn_shuffle.clicked.connect(self.setup_game)
 
         self.err_signal.connect(show_error)
         self.msg_signal.connect(self.draw_map)
@@ -96,14 +101,14 @@ class ServerController(QtGui.QWidget):
                 self.fields[i].append(FieldType.GRASS)
 
         # Set player 1's spawn
-        x = random.randint(round(self.COLS * 0.1), round(self.COLS * 0.3))
-        y = random.randint(round(self.ROWS * 0.1), round(self.ROWS * 0.3))
+        x = random.randint(round(self.ROWS * 0.1), round(self.ROWS * 0.3))
+        y = random.randint(round(self.COLS * 0.1), round(self.COLS * 0.3))
         self.fields[x][y] = FieldType.CASTLE1
         self.player1 = (x, y)
         self.bomb1 = False
         # Set player 2's spawn
-        x = random.randint(round(self.COLS * 0.7), round(self.COLS * 0.9))
-        y = random.randint(round(self.ROWS * 0.7), round(self.ROWS * 0.9))
+        x = random.randint(round(self.ROWS * 0.7), round(self.ROWS * 0.9))
+        y = random.randint(round(self.COLS * 0.7), round(self.COLS * 0.9))
         self.fields[x][y] = FieldType.CASTLE2
         self.player2 = (x, y)
         self.bomb2 = False
@@ -193,42 +198,41 @@ class ServerController(QtGui.QWidget):
             self.bomb_label.deleteLater()
             self.player1_label.deleteLater()
             self.player2_label.deleteLater()
-        for i in range(self.ROWS):
-            for j in range(self.COLS):
+        for x in range(self.ROWS):
+            for y in range(self.COLS):
                 # Get Widgets
-                widget_number = i * self.COLS + j + 1
-                widget = getattr(self.myForm, "widget_" + str(widget_number))
+                widget = QtGui.QLabel()
                 widget.setAutoFillBackground(True)
-
                 # Adjust color
-                if self.fields[i][j] == FieldType.GRASS:
+                if self.fields[x][y] == FieldType.GRASS:
                     widget.setPalette(self.pGrass)
-                elif self.fields[i][j] == FieldType.FOREST:
+                elif self.fields[x][y] == FieldType.FOREST:
                     widget.setPalette(self.pForest)
-                elif self.fields[i][j] == FieldType.LAKE:
+                elif self.fields[x][y] == FieldType.LAKE:
                     widget.setPalette(self.pLake)
-                elif self.fields[i][j] == FieldType.MOUNTAIN:
+                elif self.fields[x][y] == FieldType.MOUNTAIN:
                     widget.setPalette(self.pMountain)
-                elif self.fields[i][j] == FieldType.CASTLE1:
+                elif self.fields[x][y] == FieldType.CASTLE1:
                     widget.setPalette(self.pCastle1)
-                elif self.fields[i][j] == FieldType.CASTLE2:
+                elif self.fields[x][y] == FieldType.CASTLE2:
                     widget.setPalette(self.pCastle2)
-
                 # Draw widgets
-                if i == self.bomb[0] and j == self.bomb[1]:
+                if x == self.bomb[0] and y == self.bomb[1]:
                     self.bomb_label = QtGui.QLabel(widget)
                     self.bomb_label.setText("<span style=\"font-size:18pt; font-weight:600; color:#cc0000;\">XX</span>")
                     self.bomb_label.show()
-                if i == self.player1[0] and j == self.player1[1]:
+                if x == self.player1[0] and y == self.player1[1]:
                     self.player1_label = QtGui.QLabel(widget)
                     self.player1_label.setText(
                         "<span style=\"font-size:18pt; font-weight:600; color:#cccc00;\">P1</span>")
                     self.player1_label.show()
-                if i == self.player2[0] and j == self.player2[1]:
+                if x == self.player2[0] and y == self.player2[1]:
                     self.player2_label = QtGui.QLabel(widget)
                     self.player2_label.setText(
                         "<span style=\"font-size:18pt; font-weight:600; color:#cccc00;\">P2</span>")
                     self.player2_label.show()
+                # Add widget
+                self.view.grid.addWidget(widget, x, y)
 
     def bind_and_listen(self):
         """
@@ -236,12 +240,12 @@ class ServerController(QtGui.QWidget):
         """
         if not self.listening:
             try:
-                self.PORT = int(self.myForm.linePort.text())
+                self.PORT = int(self.view.line_port.text())
                 self.listening = True
-                self.myForm.btnListen.setText("Stop")
+                self.view.btn_listen.setText("Stop")
                 if self.shuffle:
                     self.setup_game()
-                self.myForm.btnShuffle.setDisabled(True)
+                self.view.btn_shuffle.setDisabled(True)
                 threading.Thread(target=self.__listen_for_clients).start()
             except ValueError:
                 show_error("Bitte geben Sie einen gültigen Port ein!")
@@ -253,7 +257,7 @@ class ServerController(QtGui.QWidget):
             if hasattr(self, "client2"):
                 self.client2.close()
                 self.shuffle = True
-            self.myForm.listClients.clear()
+            self.view.list_clients.clear()
 
     def __listen_for_clients(self):
         """
@@ -270,25 +274,25 @@ class ServerController(QtGui.QWidget):
                 with self.client1:
                     # Name von Spieler 1 eingeben und mit "OK" bestaetigen
                     name = self.client1.recv(1024).decode()
-                    self.myForm.listClients.addItem(name)
+                    self.view.list_clients.addItem(name)
                     self.client1.send("OK".encode())
                     (self.client2, address) = self.serversocket.accept()
                     with self.client2:
                         # Name von Spieler 2 eingeben und mit "OK" bestaetigen
                         name = self.client2.recv(1024).decode()
-                        self.myForm.listClients.addItem(name)
+                        self.view.list_clients.addItem(name)
                         self.client2.send("OK".encode())
                         self.game_loop()
                 # Spiel zuende
-                self.myForm.listClients.clear()
-                self.myForm.btnListen.setText("Listen")
-                self.myForm.btnShuffle.setDisabled(False)
+                self.view.list_clients.clear()
+                self.view.btn_listen.setText("Listen")
+                self.view.btn_shuffle.setDisabled(False)
                 self.listening = False
                 self.shuffle = True
         except Exception as e:
-            self.myForm.btnListen.setText("Listen")
+            self.view.btn_listen.setText("Listen")
             self.listening = False
-            self.myForm.btnShuffle.setDisabled(False)
+            self.view.btn_shuffle.setDisabled(False)
             self.err_signal.emit("Socket error: " + str(e))
 
     def field_message(self, position):
