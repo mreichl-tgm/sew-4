@@ -2,7 +2,6 @@ import random
 import socket
 import sys
 import threading
-import time
 from enum import Enum
 
 from PySide import QtCore, QtGui
@@ -28,10 +27,8 @@ class CommandType(Enum):
 
 def show_error(message):
     """
-    Zeigt Fehlermeldungen an.
-    :param message: Anzuzeigende Nachricht.
-    :type message: str
-    :return: None
+    Shows error messages
+    :param message: Message to display
     """
     msg = QtGui.QMessageBox()
     msg.setText(message)
@@ -41,10 +38,6 @@ def show_error(message):
 
 
 class ServerController(QtGui.QWidget):
-    # Default port
-    PORT = 5050
-    COLS = 20
-    ROWS = 10
     # Signals
     err_signal = QtCore.Signal((str,))
     msg_signal = QtCore.Signal()
@@ -55,15 +48,22 @@ class ServerController(QtGui.QWidget):
     pLake = QtGui.QPalette(QtCore.Qt.darkBlue)
     pMountain = QtGui.QPalette(QtCore.Qt.darkGray)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, host="localhost", port=5050, cols=10, rows=10):
         """
-        Create a new controller with a MyView object
-        using the MVC pattern
+        Create a new controller with a view object using the MVC pattern
 
-        :param parent:
-        :return: None
+        :param parent: Parent Object
+        :param host: Hostname
+        :param port: Port
+        :param cols: Columns used for the grid
+        :param rows: Rows used for the grid
         """
         super().__init__(parent)
+        # Handle arguments
+        self.HOST = host
+        self.PORT = port
+        self.COLS = cols
+        self.ROWS = rows
         # Initial values
         self.fields = []
         self.bomb = []
@@ -93,13 +93,11 @@ class ServerController(QtGui.QWidget):
         """
         Creates a new game
         """
-
         # Set all fields to grass
         for i in range(self.ROWS):
             self.fields.append([])
             for j in range(self.COLS):
                 self.fields[i].append(FieldType.GRASS)
-
         # Set player 1's spawn
         x = random.randint(round(self.ROWS * 0.1), round(self.ROWS * 0.3))
         y = random.randint(round(self.COLS * 0.1), round(self.COLS * 0.3))
@@ -193,7 +191,7 @@ class ServerController(QtGui.QWidget):
         """
         Draws the map
         """
-        if hasattr(self, 'bomblabel'):
+        if hasattr(self, 'bomb_label'):
             # Reset labels
             self.bomb_label.deleteLater()
             self.player1_label.deleteLater()
@@ -235,20 +233,17 @@ class ServerController(QtGui.QWidget):
                 self.view.grid.addWidget(widget, x, y)
 
     def bind_and_listen(self):
-        """
-        Setup server
-        """
         if not self.listening:
             try:
                 self.PORT = int(self.view.line_port.text())
-                self.listening = True
-                self.view.btn_listen.setText("Stop")
-                if self.shuffle:
-                    self.setup_game()
-                self.view.btn_shuffle.setDisabled(True)
-                threading.Thread(target=self.__listen_for_clients).start()
             except ValueError:
-                show_error("Bitte geben Sie einen gültigen Port ein!")
+                print("Falling back to default port", self.PORT)
+            self.listening = True
+            self.view.btn_listen.setText("Stop")
+            if self.shuffle:
+                self.setup_game()
+            self.view.btn_shuffle.setDisabled(True)
+            threading.Thread(target=self.__listen_for_clients).start()
         else:
             self.serversocket.close()
             if hasattr(self, "client1"):
@@ -264,26 +259,28 @@ class ServerController(QtGui.QWidget):
         Listen for clients
         """
         try:
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as self.serversocket:
-                # Binding erstellen und auf localhost am angegebenen Port horchen
-                self.serversocket.bind(('localhost', self.PORT))
-                # Eingehende Verbindungen ab jetzt annehmen (mit maximal 5 pending connections)
-                self.serversocket.listen(5)
-                print("Auf client warten...")
-                (self.client1, address) = self.serversocket.accept()
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as self.server_socket:
+                self.server_socket.bind((self.HOST, self.PORT))
+                self.server_socket.listen()
+                print("Waiting for clients...")
+                # Player 1
+                (self.client1, address) = self.server_socket.accept()
                 with self.client1:
-                    # Name von Spieler 1 eingeben und mit "OK" bestaetigen
                     name = self.client1.recv(1024).decode()
                     self.view.list_clients.addItem(name)
                     self.client1.send("OK".encode())
-                    (self.client2, address) = self.serversocket.accept()
+                    # Player 2
+                    (self.client2, address) = self.server_socket.accept()
                     with self.client2:
-                        # Name von Spieler 2 eingeben und mit "OK" bestaetigen
                         name = self.client2.recv(1024).decode()
                         self.view.list_clients.addItem(name)
                         self.client2.send("OK".encode())
+                        # Check clients connection
+                        if not self.client1 and self.client2:
+                            return
+                        # Main loop
                         self.game_loop()
-                # Spiel zuende
+                # Game over
                 self.view.list_clients.clear()
                 self.view.btn_listen.setText("Listen")
                 self.view.btn_shuffle.setDisabled(False)
@@ -345,8 +342,7 @@ class ServerController(QtGui.QWidget):
 
     def game_loop(self):
         """
-        Bildet die Spielelogik ab und wickelt die Zuege ab.
-        :return: None
+        Game logic and main loop
         """
         msg = self.field_message(self.player1)
         self.client1.send(msg.encode())
@@ -355,8 +351,7 @@ class ServerController(QtGui.QWidget):
         skip1 = False
         skip2 = False
         while True:
-            time.sleep(0.5)
-            # ggf. Zug ueberspringen, falls Berg bestiegen wurde
+            # Wait at mountains
             if not skip1:
                 data = self.client1.recv(1024).decode()
                 if data == CommandType.UP.value:
@@ -386,30 +381,30 @@ class ServerController(QtGui.QWidget):
             else:
                 skip2 = False
 
-            # Pruefen, ob Spieler 1 oder Spieler 2 gewonnen bzw. verloren haben
+            # Check if player wins
             check1 = self.check_position(self.player1, 1)
             check2 = self.check_position(self.player2, 2)
 
             if (check1 == 1 and check2 == 1) or (check1 == -1 and check2 == -1):
-                # Unentschieden (beide gewonnen oder beide verloren)
+                # Tie
                 self.client1.send("Draw".encode())
                 self.client2.send("Draw".encode())
                 self.msg_signal.emit()
                 return
             elif check1 == 1 or check2 == -1:
-                # Spieler 1 hat gewonnen
+                # Player 1 wins
                 self.client1.send("You win".encode())
                 self.client2.send("You lose".encode())
                 self.msg_signal.emit()
                 return
             elif check2 == 1 or check1 == -1:
-                # Spieler 2 hat gewonnen
+                # Player 2 wins
                 self.client1.send("You lose".encode())
                 self.client2.send("You win".encode())
                 self.msg_signal.emit()
                 return
             else:
-                # Nachricht sichtbarer Felder schicken
+                # Send fields
                 if not skip1:
                     msg = self.field_message(self.player1)
                     self.client1.send(msg.encode())
@@ -420,14 +415,10 @@ class ServerController(QtGui.QWidget):
 
     def check_position(self, position, number):
         """
-        Prueft die aktuelle Position und ermittelt, ob das
-        Spiel gewonnen oder verloren wurde.
-        :param position: Position des Spielers
-        :type position: (int, int)
-        :param number: Spielernummer (1 oder 2)
-        :type number: int
-        :return: -1 (verloren), 1 (gewonnen), 0 (weder noch)
-        :rtype int
+        Checks whether a player wins or not
+        :param position: Player's position
+        :param number: Player number
+        :return: 0 (default), -1 (lost), 1 (won)
         """
         if self.fields[position[0]][position[1]] == FieldType.LAKE:
             # In See gefallen
@@ -455,8 +446,8 @@ class ServerController(QtGui.QWidget):
         :param event:
         """
         self.closing = True
-        if hasattr(self, 'serversocket'):
-            self.serversocket.close()
+        if hasattr(self, 'server_socket'):
+            self.server_socket.close()
             if hasattr(self, "client1"):
                 self.client1.close()
             if hasattr(self, "client2"):
