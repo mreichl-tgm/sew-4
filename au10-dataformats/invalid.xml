@@ -1,0 +1,7 @@
+<root>
+    <42></42>               <!-- Zahlen als tags -->
+    <invalid></unvalid>     <!-- Ungleiche tags -->
+    <::>::</::>             <!-- : Ist kein erwünschtes Zeichen -->
+</root>
+<root2 id=null>             <!-- Unzulässiger Wert für ein Attribut (keine "") -->
+</root2>                    <!-- Mehrere root Elemente -->

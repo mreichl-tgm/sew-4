@@ -123,10 +123,10 @@ class Client:
         x x x x x x x x x x
         """
         self.steps = [
-            [lambda: self.move(Direction.DOWN), 4],
             [lambda: self.move(Direction.LEFT), 4],
-            [lambda: self.move(Direction.UP), 6],
+            [lambda: self.move(Direction.DOWN), 4],
             [lambda: self.move(Direction.LEFT), 6],
+            [lambda: self.move(Direction.UP), 6],
             [self.fall_back, 1]
         ]
         # Socket initialization
@@ -302,7 +302,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         host = sys.argv[1]
     else:
-        print("Falling back to default host: localhost")
+        print("Falling back to default host:", host)
     if len(sys.argv) > 2:
         try:
             port = int(sys.argv[2])

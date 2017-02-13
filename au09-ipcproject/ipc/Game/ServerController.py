@@ -2,10 +2,9 @@ import random
 import socket
 import sys
 import threading
+
 from enum import Enum
-
 from PySide import QtCore, QtGui
-
 from ipc.Game import ServerView
 
 

@@ -1,0 +1,86 @@
+{
+  "root":{
+    "kundenfirma":[
+      {
+        "name":"Wellner AG",
+        "adresse":{
+          "land":"Österreich",
+          "ort":"Wien",
+          "plz":"1010",
+          "straße":"Lange Straße",
+          "hnr":"420"
+        },
+        "kontakt":{
+          "anrede":"Sir",
+          "alter":"42",
+          "nachname":"Wellner",
+          "vorname":"Florian"
+        },
+        "_id":"11"
+      },
+      {
+        "name":"Burak GMBH und COKG",
+        "adresse":{
+          "land":"Türkei",
+          "ort":"Istanbul",
+          "plz":"2356",
+          "straße":"Sehr lange Straße",
+          "hnr":"69"
+        },
+        "kontakt":[
+          {
+            "anrede":"Herr",
+            "alter":"12",
+            "nachname":"Burak",
+            "vorname":"Abdurrahim Tekin"
+          },
+          {
+            "anrede":"Herr",
+            "alter":"15",
+            "nachname":"Muhammed",
+            "vorname":"Abdullah Atzlak"
+          },
+          {
+            "anrede":"Herr",
+            "alter":"69",
+            "nachname":"Hammed",
+            "vorname":"Hamlet"
+          }
+        ],
+        "_id":"12"
+      },
+      {
+        "name":"Friedrich AG",
+        "adresse":{
+          "land":"Frankreich",
+          "ort":"Paris",
+          "plz":"8080",
+          "straße":"Le Baguette",
+          "hnr":"88"},
+        "kontakt":{
+          "anrede":"Madame",
+          "alter":"44",
+          "nachname":"Molli",
+          "vorname":"Mice Mace"
+        },"_id":"13"
+      }
+    ],
+    "bestellung":[
+      {
+        "datum":"2016-04-20",
+        "preis":"88",
+        "_id":"21"
+      },
+      {
+        "datum":"2016-04-21",
+        "preis":"44",
+        "_id":"22"
+      },
+      {
+        "datum":"2016-04-22",
+        "preis":"22",
+        "_id":"23"
+      }
+    ]
+  }
+}
