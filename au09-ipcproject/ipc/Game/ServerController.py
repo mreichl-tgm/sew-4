@@ -191,10 +191,11 @@ class ServerController(QtGui.QWidget):
         Draws the map
         """
         if hasattr(self, 'bomb_label'):
+            pass
             # Reset labels
-            self.bomb_label.deleteLater()
-            self.player1_label.deleteLater()
-            self.player2_label.deleteLater()
+            # self.bomb_label.deleteLater()
+            # self.player1_label.deleteLater()
+            # self.player2_label.deleteLater()
         for x in range(self.ROWS):
             for y in range(self.COLS):
                 # Get Widgets
