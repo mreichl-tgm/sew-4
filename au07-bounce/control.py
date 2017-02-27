@@ -1,9 +1,7 @@
 import random
 import time
-
-from multiprocessing import Process, Value
-
 from multiprocessing import Array
+from multiprocessing import Process, Value
 
 from view import View
 

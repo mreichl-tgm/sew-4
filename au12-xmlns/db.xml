@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <kundenfirma id="11">
+        <name>Wellner AG</name>
+        <adresse>
+            <land>Österreich</land>
+            <ort>Wien</ort>
+            <plz>1010</plz>
+            <straße>Lange Straße</straße>
+            <hnr>420</hnr>
+        </adresse>
+        <kontakt>
+            <anrede>Sir</anrede>
+            <alter>42</alter>
+            <nachname>Wellner</nachname>
+            <vorname>Florian</vorname>
+        </kontakt>
+    </kundenfirma>
+
+    <kundenfirma id="12">
+        <name>Burak GMBH und COKG</name>
+        <adresse>
+            <land>Türkei</land>
+            <ort>Istanbul</ort>
+            <plz>2356</plz>
+            <straße>Sehr lange Straße</straße>
+            <hnr>69</hnr>
+        </adresse>
+        <kontakt>
+            <anrede>Herr</anrede>
+            <alter>12</alter>
+            <nachname>Burak</nachname>
+            <vorname>Abdurrahim Tekin</vorname>
+        </kontakt>
+        <kontakt>
+            <anrede>Herr</anrede>
+            <alter>15</alter>
+            <nachname>Muhammed</nachname>
+            <vorname>Abdullah Atzlak</vorname>
+        </kontakt>
+        <kontakt>
+            <anrede>Herr</anrede>
+            <alter>69</alter>
+            <nachname>Hammed</nachname>
+            <vorname>Hamlet</vorname>
+        </kontakt>
+    </kundenfirma>
+
+    <kundenfirma id="13">
+        <name>Friedrich AG</name>
+        <adresse>
+            <land>Frankreich</land>
+            <ort>Paris</ort>
+            <plz>8080</plz>
+            <straße>Le Baguette</straße>
+            <hnr>88</hnr>
+        </adresse>
+        <kontakt>
+            <anrede>Madame</anrede>
+            <alter>44</alter>
+            <nachname>Molli</nachname>
+            <vorname>Mice Mace</vorname>
+        </kontakt>
+    </kundenfirma>
+
+    <bestellung id="21">
+        <datum>2016-04-20</datum>
+        <preis>88</preis>
+    </bestellung>
+
+    <bestellung id="22">
+        <datum>2016-04-21</datum>
+        <preis>44</preis>
+    </bestellung>
+
+    <bestellung id="23">
+        <datum>2016-04-22</datum>
+        <preis>22</preis>
+    </bestellung>
+</root>
