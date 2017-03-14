@@ -2,42 +2,9 @@ from observer.observer import Observer
 
 
 class Subscriber(Observer):
-    def __init__(self):
+    def __init__(self, name=None):
         self.following = []
-
-        while True:
-            task = input(">> ")
-
-            if task == "/follow":
-                name = input("Publisher's name: ")
-
-                if self.get_publisher(name):
-                    print("You are already following this publisher")
-                    continue
-
-                continue
-
-            if task == "/subscribe":
-                name = input("Newspaper's name: ")
-
-                if name:
-                    print("Subscribed to newspaper %s !" % name)
-                else:
-                    print("Newspaper %s is not available!" % name)
-
-                continue
-
-            if task == "/unsubscribe":
-                name = input("Newspaper's name: ")
-                if name:
-                    print("Subscription revoked from newspaper %s!" % name)
-                else:
-                    print("No subscription to Newspaper %s!" % name)
-
-                continue
-
-            if task == "/quit":
-                break
+        self.name = name if name else input("This subscriber's name: ")
 
     def update(self, *args, **kwargs):
         if len(args) > 1:
@@ -55,10 +22,3 @@ class Subscriber(Observer):
             return
 
         print("Received invalid arguments: %s and keywords: %s!" % ("".join(args), "".join(kwargs)))
-
-    def get_publisher(self, name):
-        for publisher in self.following:
-            if publisher.name == name:
-                return publisher
-
-        return None
