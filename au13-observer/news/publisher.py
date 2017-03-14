@@ -5,7 +5,6 @@ from observer.observer import Observable
 
 
 class Publisher(Observable):
-
     def __init__(self, name=None):
         super().__init__()
 
@@ -85,7 +84,3 @@ class Publisher(Observable):
             return True
 
         return False
-
-
-if __name__ == "__main__":
-    publisher = Publisher()

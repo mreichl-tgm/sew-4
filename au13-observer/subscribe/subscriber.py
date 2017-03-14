@@ -62,7 +62,3 @@ class Subscriber(Observer):
                 return publisher
 
         return None
-
-
-if __name__ == "__main__":
-    subscriber = Subscriber()
