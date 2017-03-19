@@ -15,52 +15,73 @@ class Control:
         # Add Qt Signals
         self.view.publishers.itemDoubleClicked.connect(self.register)
         self.view.subscribers.itemClicked.connect(self.update_feed)
+        self.view.send_button.clicked.connect(self.send)
+        self.view.update_button.clicked.connect(self.update)
         # For testing
-        self.add_publisher("Die Tagespresse")
-        self.add_publisher("Der Postillion")
-        self.add_publisher("Der Kojote")
+        p1 = Publisher("Die Tagespresse")
+        p1.add_newspaper("RSS Feed")
+        p1.add_newspaper("Facebook")
 
-        self.add_subscriber("Robert")
-        self.add_subscriber("Hannes")
-        self.add_subscriber("Leon")
+        p2 = Publisher("Der Postillion")
+        p2.add_newspaper("Twitter")
+
+        self.publishers[p1.name] = p1
+        self.publishers[p2.name] = p2
+
+        s1 = Subscriber("Robert")
+        s2 = Subscriber("Hannes")
+        s3 = Subscriber("Leon")
+
+        self.subscribers[s1.name] = s1
+        self.subscribers[s2.name] = s2
+        self.subscribers[s3.name] = s3
+        # Initial update
+        self.update()
 
     def update(self):
+        self.view.publishers.clear()
+        self.view.subscribers.clear()
+
+        for publisher in self.publishers.values():
+            p_widget = QTreeWidgetItem()
+            p_widget.setText(0, publisher.name)
+
+            for newspaper in publisher.newspapers:
+                n_widget = QTreeWidgetItem(p_widget)
+                n_widget.setText(0, newspaper)
+
+            self.view.publishers.addTopLevelItem(p_widget)
+
+        for subscriber in self.subscribers:
+            s_widget = QTreeWidgetItem()
+            s_widget.setText(0, subscriber)
+            self.view.subscribers.addTopLevelItem(s_widget)
+
+    def update_view(self):
         self.view.update()
 
     def update_feed(self, item, column):
-        subscriber = self.subscribers[item.text(column)][0]
+        subscriber = self.subscribers[item.text(column)]
 
         if subscriber:
             self.view.feed.setText("\n".join(subscriber.feed))
 
-    def add_publisher(self, name):
-        # Add widget to tree
-        widget = QTreeWidgetItem()
-        widget.setText(0, name)
-        self.view.publishers.addTopLevelItem(widget)
-        # Add publisher to list
-        self.publishers[name] = [Publisher(name), widget]
-
-    def add_newspaper(self, publisher_name, name):
-        widget = QTreeWidgetItem()
-        widget.setText(0, name)
-
-        publisher = self.publishers[publisher_name]
-        publisher[0].add_newspaper(name)
+    def send(self):
+        for selected in self.view.publishers.selectedItems():
+            if selected.parent():
+                newspaper = self.publishers[selected.parent().text(0)].newspapers[selected.text(0)]
+                newspaper.publish(self.view.input.toPlainText())
 
     def register(self, item, column):
-        for selected in self.view.subscribers.selectedItems():
-            subscriber = self.subscribers[selected.text(column)][0]
-            publisher = self.publishers[item.text(column)][0]
+        for selected_subscriber in self.view.subscribers.selectedItems():
+            subscriber = self.subscribers[selected_subscriber.text(column)]
 
-            if subscriber and publisher:
-                publisher.register(subscriber)
-                print("%s subscribed to %s" % (subscriber.name, publisher.name))
+            for selected_observable in self.view.publishers.selectedItems():
+                if selected_observable.parent():
+                    observable = self.publishers[selected_observable.parent().text(0)].newspapers[selected_observable.text(0)]
+                else:
+                    observable = self.publishers[item.text(column)]
 
-    def add_subscriber(self, name):
-        # Add widget to tree
-        widget = QTreeWidgetItem()
-        widget.setText(0, name)
-        self.view.subscribers.addTopLevelItem(widget)
-        # Add subscriber to list
-        self.subscribers[name] = [Subscriber(name), widget]
+            if subscriber and observable:
+                observable.register(subscriber)
+                print("%s subscribed to %s" % (subscriber.name, observable.name))

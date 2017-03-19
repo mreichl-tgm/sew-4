@@ -8,4 +8,4 @@ class Newspaper(Observable):
         self.name = name
 
     def publish(self, content):
-        self.notify_all(self.publisher, self, content)
+        self.notify_all(publisher=self.publisher, newspaper=self, content=content)

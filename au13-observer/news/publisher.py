@@ -11,14 +11,14 @@ class Publisher(Observable):
         self.id = time.time()
         self.name = name if name else input("This publisher's name: ")
 
-        self.newspapers = []
+        self.newspapers = {}
 
     def register(self, observer):
         super().register(observer)
         self.notify_all(new=True, target=self)
 
     def get_newspaper(self, name: str) -> (Newspaper, None):
-        for newspaper in self.newspapers:
+        for newspaper in self.newspapers.values():
             if newspaper.name == name:
                 return newspaper
 
@@ -30,8 +30,8 @@ class Publisher(Observable):
 
         newspaper = Newspaper(self, name)
 
-        self.newspapers.append(newspaper)
-        self.notify_all(self, newspaper)
+        self.newspapers[newspaper.name] = newspaper
+        self.notify_all(publisher=self, newspaper=newspaper)
 
         return True
 
@@ -39,7 +39,7 @@ class Publisher(Observable):
         newspaper = self.get_newspaper(name)
 
         if newspaper:
-            self.newspapers.remove(newspaper)
+            del self.newspapers[newspaper.name]
             return True
 
         return False
