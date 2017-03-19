@@ -15,13 +15,57 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="1">
+     <widget class="QTextBrowser" name="feed"/>
+    </item>
+    <item row="0" column="0">
+     <widget class="QTreeWidget" name="publishers">
+      <column>
+       <property name="text">
+        <string notr="true">Publishers</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QTreeWidget" name="subscribers">
+      <column>
+       <property name="text">
+        <string notr="true">Subscribers</string>
+       </property>
+      </column>
+     </widget>
+    </item>
     <item row="1" column="1">
      <layout class="QVBoxLayout" name="inputwidget">
+      <item>
+       <widget class="QLabel" name="input_label">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Input</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QTextEdit" name="input"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="buttons">
+        <item>
+         <widget class="QPushButton" name="update_button">
+          <property name="text">
+           <string>Update</string>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QPushButton" name="send_button">
           <property name="text">
@@ -40,27 +84,6 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="0">
-     <widget class="QTreeWidget" name="publishers">
-      <column>
-       <property name="text">
-        <string notr="true">1</string>
-       </property>
-      </column>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QTreeWidget" name="subscribers">
-      <column>
-       <property name="text">
-        <string notr="true">1</string>
-       </property>
-      </column>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QTextBrowser" name="feed"/>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -76,5 +99,38 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>quit_button</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>711</x>
+     <y>451</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>718</x>
+     <y>434</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>send_button</sender>
+   <signal>clicked()</signal>
+   <receiver>input</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>593</x>
+     <y>451</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>467</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

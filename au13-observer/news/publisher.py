@@ -13,41 +13,9 @@ class Publisher(Observable):
 
         self.newspapers = []
 
-        while True:
-            task = input(">> ")
-            if task == "/add":
-                name = input("Newspaper's name: ")
-                if self.add_newspaper(name):
-                    print("Newspaper %s created!" % name)
-                else:
-                    print("Newspaper %s already created!" % name)
-
-                continue
-
-            if task == "/remove":
-                name = input("Newspaper's name: ")
-                if self.remove_newspaper(name):
-                    print("Newspaper %s removed!" % name)
-                else:
-                    print("Newspaper %s does not exist!" % name)
-
-                continue
-
-            if task == "/update":
-                name = input("Newspaper's name: ")
-                if self.get_newspaper(name):
-                    content = input("Your content: ")
-                    if self.update_newspaper(name, content):
-                        print("Published your content to %s!" % name)
-                    else:
-                        print("Failed to publish content to %s!" % name)
-                else:
-                    print("Newspaper %s does not exist!" % name)
-
-                continue
-
-            if task == "/quit":
-                break
+    def register(self, observer):
+        super().register(observer)
+        self.notify_all(new=True, target=self)
 
     def get_newspaper(self, name: str) -> (Newspaper, None):
         for newspaper in self.newspapers:
