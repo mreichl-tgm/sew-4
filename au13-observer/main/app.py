@@ -14,7 +14,7 @@ class App(QtGui.QApplication):
         self.control = Control()
 
         while self.control.view.isVisible():
-            self.control.update_view()
+            self.control.view.update()
             self.processEvents()
 
         sys.exit()

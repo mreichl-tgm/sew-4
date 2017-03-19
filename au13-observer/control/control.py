@@ -7,6 +7,9 @@ from view.view import View
 
 class Control:
     def __init__(self):
+        """
+        The GUI's control unit used to update data and process user input
+        """
         super().__init__()
         self.view = View()
         # Local containers to test functionality
@@ -39,6 +42,9 @@ class Control:
         self.update()
 
     def update(self):
+        """
+        Updates listed publishers, newspapers and subscribers
+        """
         self.view.publishers.clear()
         self.view.subscribers.clear()
 
@@ -57,16 +63,22 @@ class Control:
             s_widget.setText(0, subscriber)
             self.view.subscribers.addTopLevelItem(s_widget)
 
-    def update_view(self):
-        self.view.update()
-
     def update_feed(self, item, column):
+        """
+        Updates the news feed whenever a new subscriber is selected
+
+        :param item: QTreeWidgetItem
+        :param column: int
+        """
         subscriber = self.subscribers[item.text(column)]
 
         if subscriber:
             self.view.feed.setText("\n".join(subscriber.feed))
 
     def send(self):
+        """
+        Sends the text currently in the input box to a selected newspaper
+        """
         for selected in self.view.publishers.selectedItems():
             if selected.parent():
                 newspaper = self.publishers[selected.parent().text(0)].newspapers[selected.text(0)]
@@ -76,6 +88,12 @@ class Control:
         self.view.input.clear()
 
     def register(self, item, column):
+        """
+        Registers the selected subscriber to the selected publisher's and / or newspaper's observer list
+
+        :param item: QTreeWidgetItem
+        :param column: int
+        """
         for selected_subscriber in self.view.subscribers.selectedItems():
             subscriber = self.subscribers[selected_subscriber.text(column)]
 

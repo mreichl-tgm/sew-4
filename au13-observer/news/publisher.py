@@ -1,45 +1,50 @@
-import time
-
 from news.newspaper import Newspaper
 from observer.observer import Observable
 
 
 class Publisher(Observable):
     def __init__(self, name=None):
+        """
+        An observable publisher of newspapers
+
+        :param name:
+        """
         super().__init__()
 
-        self.id = time.time()
         self.name = name if name else input("This publisher's name: ")
-
         self.newspapers = {}
 
     def register(self, observer):
+        """
+        Overrides observable.register to notify the observer when he is registered
+
+        :param observer: Observer
+        """
         super().register(observer)
         self.notify_all(new=True, target=self)
 
-    def get_newspaper(self, name: str) -> (Newspaper, None):
-        for newspaper in self.newspapers.values():
-            if newspaper.name == name:
-                return newspaper
+    def add_newspaper(self, name: str = None):
+        """
+        Adds a new newspaper to the newspaper list
 
-        return None
-
-    def add_newspaper(self, name: str = None) -> bool:
-        if self.get_newspaper(name):
-            return False
-
+        :param name: str
+        """
         newspaper = Newspaper(self, name)
 
         self.newspapers[newspaper.name] = newspaper
         self.notify_all(publisher=self, newspaper=newspaper)
 
-        return True
-
     def remove_newspaper(self, name: str) -> bool:
-        newspaper = self.get_newspaper(name)
+        """
+        Removes a newspaper from the newspaper list
+
+        :param name: str
+        :return: bool
+        """
+        newspaper = self.newspapers[name]
 
         if newspaper:
-            del self.newspapers[newspaper.name]
+            del self.newspapers[name]
             return True
 
         return False
