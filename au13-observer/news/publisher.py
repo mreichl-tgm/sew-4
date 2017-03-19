@@ -43,12 +43,3 @@ class Publisher(Observable):
             return True
 
         return False
-
-    def update_newspaper(self, name: str, content: str) -> bool:
-        newspaper = self.get_newspaper(name)
-
-        if newspaper:
-            newspaper.publish(content)
-            return True
-
-        return False

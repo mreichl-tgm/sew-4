@@ -116,21 +116,5 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>send_button</sender>
-   <signal>clicked()</signal>
-   <receiver>input</receiver>
-   <slot>clear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>593</x>
-     <y>451</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>467</x>
-     <y>352</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
 </ui>

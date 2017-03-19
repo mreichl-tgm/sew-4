@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sun Mar 19 18:46:27 2017
+# Created: Sun Mar 19 20:59:34 2017
 #      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -63,7 +63,6 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.quit_button, QtCore.SIGNAL("clicked()"), MainWindow.close)
-        QtCore.QObject.connect(self.send_button, QtCore.SIGNAL("clicked()"), self.input.clear)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

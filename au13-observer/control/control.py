@@ -18,19 +18,19 @@ class Control:
         self.view.send_button.clicked.connect(self.send)
         self.view.update_button.clicked.connect(self.update)
         # For testing
-        p1 = Publisher("Die Tagespresse")
-        p1.add_newspaper("RSS Feed")
-        p1.add_newspaper("Facebook")
+        p1 = Publisher("Der beste Verlag")
+        p1.add_newspaper("Die beste Zeitung")
+        p1.add_newspaper("Die besten News")
 
-        p2 = Publisher("Der Postillion")
-        p2.add_newspaper("Twitter")
+        p2 = Publisher("Der coolste Verlag")
+        p2.add_newspaper("Die coolste Zeitung")
 
         self.publishers[p1.name] = p1
         self.publishers[p2.name] = p2
 
-        s1 = Subscriber("Robert")
-        s2 = Subscriber("Hannes")
-        s3 = Subscriber("Leon")
+        s1 = Subscriber("Hans")
+        s2 = Subscriber("Peter")
+        s3 = Subscriber("Günther")
 
         self.subscribers[s1.name] = s1
         self.subscribers[s2.name] = s2
@@ -71,6 +71,9 @@ class Control:
             if selected.parent():
                 newspaper = self.publishers[selected.parent().text(0)].newspapers[selected.text(0)]
                 newspaper.publish(self.view.input.toPlainText())
+                print("Updating newspaper", newspaper.name)
+
+        self.view.input.clear()
 
     def register(self, item, column):
         for selected_subscriber in self.view.subscribers.selectedItems():

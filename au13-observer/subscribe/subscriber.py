@@ -7,6 +7,7 @@ class Subscriber(Observer):
         self.feed = [name + "'s feed:"]
 
     def update(self, new=False, target=None, publisher=None, newspaper=None, content=None, *args, **kwargs):
+        print("", new, target, publisher, newspaper, content)
         if new and target:
             self.feed.append("Now following %s" % target.name)
             return
