@@ -41,10 +41,13 @@ class BzTarEngine(ShutilEngine):
 
 class BzTwoEngine(engine.ArchiveEngine):
     def write(self):
-        for filename in os.listdir(self.source):
-            with open(filename) as file:
-                bz_file = bz2.BZ2File(filename + ".bz2", "wb")
-                bz_file.write(file.read())
+        def write_dir(directory):
+            for filename in os.listdir(directory):
+                try:
+                    with bz2.BZ2File(filename + ".bz2", "w") as output:
+                        shutil.copyfile(filename, output)
+                except FileNotFoundError:
+                    print("File %s was not found, continuing anyway" % filename)
 
     def __str__(self):
         return "bz2"

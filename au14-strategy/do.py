@@ -10,8 +10,8 @@ if __name__ == "__main__":
     help_a = "-a ARCHIVE, --archive-engine=ARCHIVE use the given archive engine (default=ZIP_STORED)"
     help_n = "-n NAME, --archive-name=NAME name of the archive (default=archive)"
 
-    usage = "Usage: do.py [options]\n" \
-            "\tNote: By default this script will overwrite already created archives!\n\n" \
+    usage = "do.py [options]\n" \
+            "Note: By default this script will overwrite already created archives!\n\n" \
             + help_h + help_d + help_s + help_a + help_n
 
     parser = argparse.ArgumentParser(description='Secure your data!', usage=usage)
@@ -26,8 +26,9 @@ if __name__ == "__main__":
     error_msg = "Error during archive creation"
 
     for name in dir(engines):
-        if args.archive_engine.lower() in name.lower():
-            obj = getattr(engines, name)
+        obj = getattr(engines, name)
+
+        if obj and obj.__str__(obj) == args.archive_engine.lower():
             instance = obj(args.archive_name, args.dest_dir, args.source_dir)
             instance.write()
 

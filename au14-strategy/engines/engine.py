@@ -28,10 +28,3 @@ class ArchiveEngine(metaclass=ABCMeta):
 
         :return: None
         """
-
-    @abstractmethod
-    def name(self):
-        """ Used to set and get the engines name
-        
-        :return: str
-        """
