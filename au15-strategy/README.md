@@ -1,7 +1,6 @@
 ## Design Patterns: Strategy Sichere deine Daten!
 
 ```
-Return to: Design Patterns
 Schreiben Sie ein Programm, das sowohl von der CommandLine als auch mit Standard-Optionen arbeiten kann:
 
 Usage: do.py [options]
