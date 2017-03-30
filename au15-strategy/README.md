@@ -1,6 +1,6 @@
 ## Design Patterns: Strategy Sichere deine Daten!
 
-´´´
+'''
 Return to: Design Patterns
 Schreiben Sie ein Programm, das sowohl von der CommandLine als auch mit Standard-Optionen arbeiten kann:
 
@@ -19,7 +19,7 @@ Options:
                         use the given archive engine (default=ZIP_STORED)
   -n NAME, --archive-name=NAME
                         name of the archive (default=archive)
-´´´
+'''
 
 Das Programm dient zur flexiblen Archivierung von vorhandenen Daten.
 
@@ -37,12 +37,12 @@ Das Programm dient zur flexiblen Archivierung von vorhandenen Daten.
 * Speicherung der ausgewählten Files
 
 ### Beispielhafte Ausgaben:
-´´´
+'''
 - python do.py -a TAURUS -d .\strategy_archivieren -s .\strategy_archivieren
 - TAURUS is not a valid compression engine.
 - python do.py -a TAR_STORED -d .\strategy_archivieren -s .\strategy_archivieren
 - python do.py -a TAR_GZ -n test_tar_gz -d .\strategy_archivieren -s .\strategy_archivieren
-´´´
+'''
 
 ### Folgende Archive-Engines sind umzusetzen:
 * Dateierweiterung .zip: ZIP ohne Komprimierung
