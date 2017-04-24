@@ -1,25 +1,30 @@
-import time
+import os
+
+from mdb.products import *
 
 
 class ATrackFactory:
     def __init__(self):
         self.loaded = False
+        self.playlist = []
 
     def load(self):
         pass
 
     def play(self):
-        if not self.geladen:
+        if not self.loaded:
             self.load()
-        for song in self.playlist:
-            song.play()
-            time.sleep(1)
-        print('Wir sind am Ende der Playliste angelangt. Auf Wiedersehen!')
+
+        for track in self.playlist:
+            track.play()
 
 
-class DisplayFactory(ATrackFactory):
-    pass
+class MockupFactory(ATrackFactory):
+    def load(self):
+        self.playlist.append(TrackMockup())
 
 
 class FileFactory(ATrackFactory):
-    pass
+    def load(self):
+        for filename in os.listdir("tracks"):
+            self.playlist.append(TrackFile("tracks/" + filename))

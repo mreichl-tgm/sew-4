@@ -1,3 +1,4 @@
+from mdb.factories import FileFactory
 from view.view import View
 
 
@@ -8,3 +9,7 @@ class Control:
         """
         super().__init__()
         self.view = View()
+
+        file_factory = FileFactory()
+        file_factory.load()
+        file_factory.play()
