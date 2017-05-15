@@ -99,6 +99,9 @@ ENV/
 # Java
 *.class
 
+## Gradle
+.gradle
+
 ## BlueJ files
 *.ctxt
 

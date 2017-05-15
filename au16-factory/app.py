@@ -12,6 +12,7 @@ class App(QtGui.QApplication):
         """
         super().__init__(sys.argv)
         self.control = Control()
+        self.control.start()
 
         while self.control.view.isVisible():
             self.control.view.update()
