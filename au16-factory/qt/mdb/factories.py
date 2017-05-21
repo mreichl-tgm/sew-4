@@ -1,8 +1,7 @@
 import os
 
-from pyglet.media import Player
-
 from mdb.products import *
+from pyglet.media import Player
 
 
 class ATrackFactory:
