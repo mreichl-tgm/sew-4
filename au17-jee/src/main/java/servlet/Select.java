@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Select extends HttpServlet {
     protected void doGet(HttpServletRequest request,
@@ -25,16 +27,20 @@ public class Select extends HttpServlet {
         topics.add("Ein Bundesland");
         topics.add("Eine Hauptstadt");
 
-        ArrayList<Bundesland> states = new ArrayList<>();
-        states.add(new Bundesland("Oberösterreich", "Linz"));
-        states.add(new Bundesland("Wien", "Wien"));
-        states.add(new Bundesland("Niederösterreich", "St. Pölten"));
-        states.add(new Bundesland("Steiermark", "Graz"));
-        states.add(new Bundesland("Vorarlberg", "Bregenz"));
-        states.add(new Bundesland("Salzburg", "Salzburg"));
-        states.add(new Bundesland("Kärnten", "Klagenfurt"));
-        states.add(new Bundesland("Tirol", "Innsbruck"));
-        states.add(new Bundesland("Burgenland", "Eisenstadt"));
+        HashMap<String, Bundesland> states = new HashMap<>();
+        states.put("O", new Bundesland("Oberösterreich", "Linz"));
+        states.put("W", new Bundesland("Wien", "Wien"));
+        states.put("N", new Bundesland("Niederösterreich", "St. Pölten"));
+        states.put("ST", new Bundesland("Steiermark", "Graz"));
+        states.put("V", new Bundesland("Vorarlberg", "Bregenz"));
+        states.put("SA", new Bundesland("Salzburg", "Salzburg"));
+        states.put("K", new Bundesland("Kärnten", "Klagenfurt"));
+        states.put("T", new Bundesland("Tirol", "Innsbruck"));
+        states.put("B", new Bundesland("Burgenland", "Eisenstadt"));
+
+        for (Map.Entry state : states.entrySet()) {
+            state.getKey();
+        }
 
         request.setAttribute("topics", topics);
         request.setAttribute("states", states);

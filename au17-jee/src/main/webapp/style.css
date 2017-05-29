@@ -1,8 +1,8 @@
 body {
-    font-family: "Source Serif Pro";
+    font-family: "Source Serif Pro", serif;
 }
 
-header form {
+header {
     margin: 0 2em;
 }
 

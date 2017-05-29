@@ -23,11 +23,13 @@
 
 <main>
     <c:set var="chosenTopic" value="<%= request.getParameter("topic")%>"/>
+    <c:set var="chosenState" value="<%= request.getParameter("singleState")%>"/>
+    <c:set var="chosenCapital" value="<%= request.getParameter("singleCapital")%>"/>
     <!-- Alle Hauptstädte -->
     <c:if test='${chosenTopic == "Alle Hauptstädte"}'>
         <h2>Alle Hauptstädte</h2>
         <ul>
-            <c:forEach var="state" items="${states}">
+            <c:forEach var="state" items="${states.values()}">
                 <li>${state.getCapital()}</li>
             </c:forEach>
         </ul>
@@ -36,10 +38,44 @@
     <c:if test='${chosenTopic == "Alle Bundesländer"}'>
         <h2>Alle Hauptstädte</h2>
         <ul>
-            <c:forEach var="state" items="${states}">
+            <c:forEach var="state" items="${states.values()}">
                 <li>${state.getName()}</li>
             </c:forEach>
         </ul>
+    </c:if>
+    <!-- Ein Bundesland -->
+    <c:if test='${chosenTopic == "Ein Bundesland" || chosenState != null}'>
+        <h2>Ein Bundesland</h2>
+        <form action="select" method="get">
+            <select name="singleState" title="singleState">
+                <c:forEach var="state" items="${states.entrySet()}">
+                    <option value="${state.getKey()}">${state.getValue().getName()}</option>
+                </c:forEach>
+            </select>
+
+            <input type="submit"/>
+        </form>
+
+        <c:if test='${chosenState != null}'>
+            <p>${states.get(chosenState).getName()}'s capital is ${states.get(chosenState).getCapital()}</p>
+        </c:if>
+    </c:if>
+    <!-- Eine Hauptstadt -->
+    <c:if test='${chosenTopic == "Eine Hauptstadt" || chosenCapital != null}'>
+        <h2>Eine Hauptstadt</h2>
+        <form action="select" method="get">
+            <select name="singleCapital" title="singleCapital">
+                <c:forEach var="state" items="${states.entrySet()}">
+                    <option value="${state.getKey()}">${state.getValue().getCapital()}</option>
+                </c:forEach>
+            </select>
+
+            <input type="submit"/>
+        </form>
+
+        <c:if test='${chosenCapital != null}'>
+            <p>${states.get(chosenCapital).getCapital()} is the capital of ${states.get(chosenCapital).getName()}</p>
+        </c:if>
     </c:if>
 </main>
 </body>

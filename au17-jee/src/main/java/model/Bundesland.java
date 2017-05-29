@@ -6,7 +6,9 @@
 package main.java.model;
 
 
-public class Bundesland {
+import java.io.Serializable;
+
+public class Bundesland implements Serializable {
     private String name;
     private String capital;
 
