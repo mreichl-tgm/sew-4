@@ -2,6 +2,10 @@ body {
     font-family: "Source Serif Pro";
 }
 
+header form {
+    margin: 0 2em;
+}
+
 main {
     margin: 1.5em 2em;
 }

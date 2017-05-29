@@ -1,3 +1,8 @@
+/**
+ * @author Markus Reichl
+ * @version 29.05.2017
+ */
+
 package main.java.servlet;
 
 import javax.servlet.ServletException;

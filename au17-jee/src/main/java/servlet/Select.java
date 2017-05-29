@@ -1,3 +1,8 @@
+/**
+ * @author Markus Reichl
+ * @version 29.05.2017
+ */
+
 package main.java.servlet;
 
 import main.java.model.Bundesland;
@@ -33,6 +38,6 @@ public class Select extends HttpServlet {
 
         request.setAttribute("topics", topics);
         request.setAttribute("states", states);
-        request.getRequestDispatcher("/select.jsp").forward(request, response);
+        request.getRequestDispatcher("select.jsp").forward(request, response);
     }
 }
