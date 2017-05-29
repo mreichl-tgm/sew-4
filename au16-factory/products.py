@@ -27,4 +27,5 @@ class TrackFile(ATrack):
         player.queue(self.file)
         player.play()
         pyglet.app.run()
+        pyglet.app.exit()
         print("Track %s was queued" % self.title)
