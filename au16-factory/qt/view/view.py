@@ -1,6 +1,6 @@
 from PySide.QtGui import QMainWindow
 
-from view.mainwindow import Ui_MainWindow
+from qt.view.mainwindow import Ui_MainWindow
 
 
 class View(QMainWindow, Ui_MainWindow):

@@ -2,11 +2,27 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-    <display-name>Dropdown</display-name>
+    <display-name>Au17 JavaEE</display-name>
+
+    <listener>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+    </listener>
+
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>converter.xhtml</welcome-file>
     </welcome-file-list>
 
+    <servlet>
+        <servlet-name>faces</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>faces</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    
     <servlet>
         <servlet-name>Select</servlet-name>
         <servlet-class>main.java.servlet.Select</servlet-class>
@@ -25,4 +41,9 @@
         <servlet-name>Dynamic</servlet-name>
         <url-pattern>dynamic</url-pattern>
     </servlet-mapping>
+
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/converter.xhtml</location>
+    </error-page>
 </web-app>

@@ -3,11 +3,21 @@ import pyglet
 
 class ATrack:
     def __init__(self, title, interpret, album):
+        """
+        Abstract base for a track
+        :param title: title of the track
+        :param interpret: interpret of the track
+        :param album: album the track is featured in
+        """
         self.title = title
         self.interpret = interpret
         self.album = album
 
     def play(self, player):
+        """
+        Abstract play function for the track
+        :param player: Pyglet player used to play the track
+        """
         pass
 
 

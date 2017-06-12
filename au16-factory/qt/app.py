@@ -1,7 +1,7 @@
 import sys
 
 from PySide import QtGui
-from control.control import Control
+from qt.control.control import Control
 
 
 class App(QtGui.QApplication):

@@ -1,6 +1,6 @@
 import os
 
-from mdb.products import *
+from qt.mdb.products import *
 from pyglet.media import Player
 
 

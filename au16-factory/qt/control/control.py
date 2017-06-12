@@ -1,7 +1,7 @@
 import threading
 
-from mdb.factories import FileFactory
-from view.view import View
+from qt.mdb.factories import FileFactory
+from qt.view.view import View
 
 
 class Control(threading.Thread):

@@ -1,31 +1,21 @@
-## JavaEE: Politische Bildung
-Zurück zu: Java EE
-Erstelle ein Programm, welches Unterstützung in politischer Bildung in Österreich anbietet!
+## JavaEE
+Folgende Aufgabenstellungen befassen sich mit der Java Enterprise Edition und den Themen JSP, JSTL und JSF.
 
-Je nach Auswahl des Themas wird eine entsprechende JSP-Seite aufgerufen:
-1. All capitals
-2. All states
-3. One state
-4. Capital
+### Aufgaben
+#### Statische und Dynamische Webprojekte in JavaEE
+Referenziert unter STATISCH_DYNAMISCH.md
+* src/main/webapp/static.jsp
+* src/main/webapp/dynamic.jsp
+* src/main/java/servlet/Dynamic.java
 
-Je nach ausgewähltem Bundesland wird die passende Hauptstadt ausgegeben:
+#### Politische Bildung
+Referenziert unter POLITISCHE_BILDUNG.md
+* src/main/webapp/select.jsp
+* src/main/java/servlet/Select.java
+* src/main/java/model/Bundesland.java
 
-### Grundanforderungen:
-Verwende die angehängten Dateien zur Entwicklung:
-* jsp: Erstelle alle notwendigen JSP-Files
-* servlet: Erstelle das Servlet zum Dispatchen aus Basis der Usereingabe
-Möglicher Aufbau des Projektes:
-* src/main/java
-    * model/Bundesland.java (Serialisierbare Java-Klasse, welche alle Bundesländer und Hauptstädte kennt)
-    * servlet/MyServlet.java (erbt von HttpServlet und leitet je nach request-Parameter auf result.jsp oder index2.jsp weiter und holt die Daten aus dem Model)
-* src/main/webapp/
-    * index.jsp (ermöglicht die Wahl zwischen den drei Optionen; enthält dropdown und Submit-Button)
-    * index2.jsp (Zwischenschritt für die Auswahl des Bundeslandes, von dem die Hauptstadt angezeigt werden soll)
-    * result.jsp (listet das Ergebnis bzw. die Ergebnisse auf)
-    * WEBINF/web.xml
-
-### Erweiterungen:
-* Ersetze die JSP-Scriplets durch JSTL!
-* Verwende eine angenehme User Experience
-
-**Abgabe:** zip-File mit Source-Files und Dokumentation
+#### Temperatur Umwandler
+Referenziert unter TEMPERATUR.md
+* src/main/webapp/converter.xhtml
+* src/main/java/servlet/Converter.java
+* src/main/java/Model/ConverterModel.java

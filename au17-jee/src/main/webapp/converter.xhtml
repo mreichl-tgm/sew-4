@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsf/core"
+      xmlns:ui="http://primefaces.org/ui"
+      xml:lang="en" lang="en">
+<h:head>
+    <title>Temperature Converter</title>
+</h:head>
+
+<h:body>
+    <h:form id="form">
+        <ui:panel header="Temperature Converter">
+            <ui:panelGrid column="2">
+                <h:outputText value="Temp: " />
+                <ui:messages for="t-input" style="color:red"/>
+                <ui:inputText id="t-input"
+                              value="#{temperatureConverter.convert}">
+                    <c:validateDoubleRange for="t-input" minimum="-1000" maximum="1000"/>
+                </ui:inputText>
+            </ui:panelGrid>
+            <br />
+            <ui:commandButton value="C->F" ajax="false" action="#{temperatureConverter.celsiusToFahrenheit}" />
+            <ui:commandButton value="F->C" ajax="false" action="#{temperatureConverter.fahrenheitToCelsius}" />
+            <ui:commandButton value="C->K" ajax="false" action="#{temperatureConverter.celsiusToKelvin}" />
+            <ui:commandButton value="K->C" ajax="false" action="#{temperatureConverter.kelvinToCelsius}" />
+            <ui:commandButton value="K->F" ajax="false" action="#{temperatureConverter.kelvinToFahrenheit}" />
+            <ui:commandButton value="F->K" ajax="false" action="#{temperatureConverter.fahrenheitToKelvin}" />
+            <ui:commandButton value="Reset" ajax="false" action="#{temperatureConverter.reset}" />
+        </ui:panel>
+    </h:form>
+
+    <ui:panel id="results" header="Results" rendered="#{not temperatureConverter.initial}">
+        <h:outputLabel value="#{temperatureConverter.unit}: " />
+        <h:outputLabel value="#{temperatureConverter.converted}" />
+    </ui:panel>
+</h:body>
+</html>

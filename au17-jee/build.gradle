@@ -16,11 +16,16 @@ apply plugin: 'java'
 apply plugin: 'war'
 
 repositories {
+    mavenCentral()
     jcenter()
 }
 
 dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0'
+    compile 'com.sun.faces:jsf-api:2.2.8-15'
+    compile 'org.primefaces:primefaces:6.0'
+    compile 'com.sun.faces:jsf-impl:2.2.8-15'
+    compile 'javax.validation:validation-api:1.1.0.Final'
     runtime 'javax.servlet:jstl:1.2'
 }
 
