@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Model class for the temperature converter holding units and conversions.
  */
 
-public class ConverterModel implements Serializable {;
+public class ConverterModel implements Serializable {
     private double convert;
     private double converted;
     private boolean initial;
