@@ -5,7 +5,7 @@ Software Development ▪ Year 4 - Semester 7/8 - 2016/17 ▪ TGM Vienna - Inform
 I believe that scientific knowledge should be available for everyone.\
 So here is everything I have been working on for everyone to use.
 
-Sincerely,\
+Sincerely\
 Markus [@re1](https://github.com/re1)
 
 ```
